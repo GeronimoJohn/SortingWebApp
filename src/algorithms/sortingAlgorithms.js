@@ -1,32 +1,80 @@
-export const mergeSort = (array) => {
-  if (array.length === 1) return array;
-  // breaks the array in half
-  const middleIdx = Math.floor(array.length / 2);
-  // saves the fist half of the array to left array
-  const leftArray = mergeSort(array.slice(0, middleIdx));
-  // saves the right half to the array to right array
-  const rightArray = mergeSort(array.slice(middleIdx));
-  // the new sorted array will be saved in here
-  const sortedArray = [];
+export function getMergeSortAnimations(array) {
+  const animations = [];
+  if (array.length <= 1) return array;
+  const auxiliaryArray = array.slice();
+  mergeSortHelper(array, 0, array.length - 1, auxiliaryArray, animations);
+  return animations;
+}
 
-  let i = 0,
-    j = 0;
+function mergeSortHelper(
+  mainArray,
+  startIdx,
+  endIdx,
+  auxiliaryArray,
+  animations
+) {
+  if (startIdx === endIdx) return;
+  const middleIdx = Math.floor((startIdx + endIdx) / 2);
+  mergeSortHelper(auxiliaryArray, startIdx, middleIdx, mainArray, animations);
+  mergeSortHelper(auxiliaryArray, middleIdx + 1, endIdx, mainArray, animations);
+  doMerge(mainArray, startIdx, middleIdx, endIdx, auxiliaryArray, animations);
+}
 
-  while (i < leftArray.length && j < rightArray.length) {
-    if (leftArray[i] < rightArray[j]) {
-      sortedArray.push(leftArray[i]);
-      // code wasnt working before because we weren't removing the first index of the array
-      leftArray.shift();
+function doMerge(
+  mainArray,
+  startIdx,
+  middleIdx,
+  endIdx,
+  auxiliaryArray,
+  animations
+) {
+  let k = startIdx;
+  let i = startIdx;
+  let j = middleIdx + 1;
+  while (i <= middleIdx && j <= endIdx) {
+    // These are the values that we're comparing; we push them once
+    // to change their color.
+    animations.push([i, j]);
+    // These are the values that we're comparing; we push them a second
+    // time to revert their color.
+    animations.push([i, j]);
+    if (auxiliaryArray[i] <= auxiliaryArray[j]) {
+      // We overwrite the value at index k in the original array with the
+      // value at index i in the auxiliary array.
+      animations.push([k, auxiliaryArray[i]]);
+      mainArray[k++] = auxiliaryArray[i++];
     } else {
-      sortedArray.push(rightArray[j]);
-      rightArray.shift();
+      // We overwrite the value at index k in the original array with the
+      // value at index j in the auxiliary array.
+      animations.push([k, auxiliaryArray[j]]);
+      mainArray[k++] = auxiliaryArray[j++];
     }
   }
-
-  // while (i < leftArray.length) sortedArray.push(leftArray[i++]);
-  // while (j < rightArray.length) sortedArray.push(rightArray[j++]);
-  return sortedArray.concat(leftArray).concat(rightArray);
-};
+  while (i <= middleIdx) {
+    // These are the values that we're comparing; we push them once
+    // to change their color.
+    animations.push([i, i]);
+    // These are the values that we're comparing; we push them a second
+    // time to revert their color.
+    animations.push([i, i]);
+    // We overwrite the value at index k in the original array with the
+    // value at index i in the auxiliary array.
+    animations.push([k, auxiliaryArray[i]]);
+    mainArray[k++] = auxiliaryArray[i++];
+  }
+  while (j <= endIdx) {
+    // These are the values that we're comparing; we push them once
+    // to change their color.
+    animations.push([j, j]);
+    // These are the values that we're comparing; we push them a second
+    // time to revert their color.
+    animations.push([j, j]);
+    // We overwrite the value at index k in the original array with the
+    // value at index j in the auxiliary array.
+    animations.push([k, auxiliaryArray[j]]);
+    mainArray[k++] = auxiliaryArray[j++];
+  }
+}
 
 export const bubbleSort = (array) => {
   let swapping = true;
