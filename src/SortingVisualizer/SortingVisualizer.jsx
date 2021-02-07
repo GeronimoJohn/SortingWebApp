@@ -19,7 +19,7 @@ export class SortingVisualizer extends Component {
     // when the component mounts a new array with 100 random values is created
     resetArray() {
         const array = [];
-        for (let i = 0; i < 180; i++) {
+        for (let i = 0; i < 99; i++) {
             array.push(randomIntFromInterval(5, 850));
         }
         this.setState({array});
@@ -27,12 +27,15 @@ export class SortingVisualizer extends Component {
 
     mergeSort() {
         const javasciptSortedArray = this.state.array.slice().sort((a, b) => a - b);
-        const sortedArray = sortingAlgorithms.mergeSorts(this.state.array);
-        console.log(sortedArray);
+        const sortedArray = sortingAlgorithms.mergeSort(this.state.array);
+        console.log(`Merge Sort: ${sortedArray}`);
         console.log(arraysAreEqual(javasciptSortedArray, sortedArray));
     }
 
     bubbleSort() {
+        const javascriptSortedArray = this.state.array.slice().sort((a, b) => a - b);
+        const sortedArray = sortingAlgorithms.bubbleSort(this.state.array);
+        console.log(`Bubble Sort: ${sortedArray}`);
 
     }
 
@@ -47,6 +50,7 @@ export class SortingVisualizer extends Component {
         return (
             // maps through the array and creates a new div with it and new value
             <div className="array-container">
+                {console.log(this.state.array)}
             {array.map((value, idx) => (
                 <div 
                 className="array-bar" 
