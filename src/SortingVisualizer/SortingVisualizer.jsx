@@ -20,7 +20,7 @@ export class SortingVisualizer extends Component {
     // when the component mounts a new array with 100 random values is created
     resetArray() {
         const array = [];
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 5; i++) {
             array.push(randomIntFromInterval(5, 850));
         }
         this.setState({array});
