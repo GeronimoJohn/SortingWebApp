@@ -49,7 +49,7 @@ export class SortingVisualizer extends Component {
         return (
             // maps through the array and creates a new div with it and new value
             <div className="array-container">
-                {console.log(this.state.array)}
+                {/* {console.log(this.state.array)} */}
             {array.map((value, idx) => (
                 <div 
                 className="array-bar" 

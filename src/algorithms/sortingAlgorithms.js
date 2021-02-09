@@ -7,23 +7,25 @@ export const mergeSort = (array) => {
   const mid = Math.floor(length / 2);
   const leftArray = array.slice(0, mid);
   const rightArray = array.slice(mid, length);
+  
+  return merge(mergeSort(leftArray), mergeSort(rightArray));
+};
+
+const merge = (leftArray, rightArray) => {
   const sortedArray = [];
 
-  let i = 0,
-    j = 0;
-
-  while (i < leftArray.length && j < rightArray.length) {
-    if (leftArray[i] < rightArray[j]) {
-      sortedArray.push(leftArray[i++]);
+  while(leftArray.length > 0 && rightArray.length > 0) {
+    if (leftArray[0] < rightArray[0]) {
+      sortedArray.push(leftArray[0]);
       leftArray.shift();
     } else {
-      sortedArray.push(rightArray[j++]);
+      sortedArray.push(rightArray[0]);
       rightArray.shift();
     }
   }
 
   return sortedArray.concat(leftArray).concat(rightArray);
-};
+}
 
 export const bubbleSort = (array) => {
   let swapping = true;
